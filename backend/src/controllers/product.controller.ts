@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ProductService } from "../services/product.service.js";
-import { ViewService } from "../services/view.service.js"; // Import ViewService
+import { ViewService } from "../services/view.service.js";
 import { ProductStatus } from "@prisma/client";
 
 export class ProductController {
