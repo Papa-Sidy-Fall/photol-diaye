@@ -32,7 +32,7 @@ export class ProductController {
         mainImage,
         images,
         sellerId,
-        categoryId || undefined // Allow undefined
+        categoryId || undefined
       );
       res.status(201).json(product);
     } catch (error: any) {
