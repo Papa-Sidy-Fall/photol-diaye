@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator ts_node {
+  provider = "ts-node"
+  output   = "../seed.ts"
+}
+
+enum Role {
+  CLIENT
+  SELLER
+  ADMIN
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      Role     @default(CLIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products  Product[]
+  favorites Favorite[]
+  sentChats     Chat[] @relation("SenderChats")
+  receivedChats Chat[] @relation("ReceiverChats")
+  vipPoints VIPPoints?
+  likes     Like[]
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  price       Float
+  whatsappLink String?
+  phoneNumber String?
+  mainImage   String @db.LongText // Changed to LongText to store very long base64 strings
+  images      ProductImage[] // Changed to relation
+  status      ProductStatus @default(PENDING)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  seller      User      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId    Int
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+  views       View[]
+  favorites   Favorite[]
+  vipPoints   VIPPoints?
+  likes       Like[]
+}
+
+model ProductImage {
+  id        Int      @id @default(autoincrement())
+  url       String @db.LongText // Changed to LongText to store very long base64 strings
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  createdAt DateTime @default(now())
+}
+
+enum ProductStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DEACTIVATED
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  products  Product[]
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model View {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  createdAt DateTime @default(now())
+}
+
+model VIPPoints {
+  id        Int      @id @default(autoincrement())
+  points    Int
+  expiresAt DateTime?
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Chat {
+  id        Int      @id @default(autoincrement())
+  message   String
+  sender    User     @relation("SenderChats", fields: [senderId], references: [id])
+  senderId  Int
+  receiver  User     @relation("ReceiverChats", fields: [receiverId], references: [id])
+  receiverId Int
+  productId Int
+  createdAt DateTime @default(now())
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
