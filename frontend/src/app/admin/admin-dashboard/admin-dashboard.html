@@ -1,0 +1,202 @@
+<div class="admin-dashboard-container">
+  <div class="admin-dashboard-header">
+    <h1 class="admin-dashboard-title">Tableau de Bord Administrateur</h1>
+    <p class="admin-dashboard-subtitle">Gérez les produits et les utilisateurs</p>
+  </div>
+
+  <div class="admin-dashboard-stats">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 2L3 7v11a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V7l-7-5z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>Total Produits</h3>
+        <p class="stat-number">{{ totalProducts }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>Produits en Attente</h3>
+        <p class="stat-number">{{ pendingProducts }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>Produits Approuvés</h3>
+        <p class="stat-number">{{ approvedProducts }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>Produits Rejetés</h3>
+        <p class="stat-number">{{ rejectedProducts }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div class="admin-dashboard-content">
+    <div class="products-management">
+      <h2 class="section-title">Gestion des Produits</h2>
+
+      <div class="filters-section">
+        <div class="filter-group">
+          <label for="statusFilter">Statut</label>
+          <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterProducts()">
+            <option value="">Tous les statuts</option>
+            <option value="PENDING">En attente</option>
+            <option value="APPROVED">Approuvé</option>
+            <option value="REJECTED">Rejeté</option>
+            <option value="DEACTIVATED">Désactivé</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="searchFilter">Recherche</label>
+          <input
+            type="text"
+            id="searchFilter"
+            [(ngModel)]="searchTerm"
+            (input)="filterProducts()"
+            placeholder="Titre du produit..."
+          />
+        </div>
+      </div>
+
+      <div class="products-table-container">
+        <table class="products-table" *ngIf="products.length > 0; else noProducts">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Titre</th>
+              <th>Prix</th>
+              <th>Vendeur</th>
+              <th>Statut</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products" class="product-row">
+              <td>
+                <img [src]="product.mainImage" alt="Produit" class="product-thumbnail" />
+              </td>
+              <td>{{ product.title }}</td>
+              <td>{{ product.price | currency:'XOF':'symbol':'1.0-0' }}</td>
+              <td>{{ product.seller?.email }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="{
+                  'status-pending': product.status === 'PENDING',
+                  'status-approved': product.status === 'APPROVED',
+                  'status-rejected': product.status === 'REJECTED',
+                  'status-deactivated': product.status === 'DEACTIVATED'
+                }">
+                  {{ product.status === 'PENDING' ? 'En attente' :
+                     product.status === 'APPROVED' ? 'Approuvé' :
+                     product.status === 'REJECTED' ? 'Rejeté' : 'Désactivé' }}
+                </span>
+              </td>
+              <td>{{ product.createdAt | date:'dd/MM/yyyy' }}</td>
+              <td class="actions-cell">
+                <button
+                  *ngIf="product.status === 'PENDING'"
+                  class="action-btn approve-btn"
+                  (click)="updateProductStatus(product.id, 'APPROVED')"
+                  title="Approuver"
+                >
+                  <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+                <button
+                  *ngIf="product.status === 'PENDING'"
+                  class="action-btn reject-btn"
+                  (click)="updateProductStatus(product.id, 'REJECTED')"
+                  title="Rejeter"
+                >
+                  <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+                <button
+                  class="action-btn view-btn"
+                  (click)="viewProductDetails(product)"
+                  title="Voir détails"
+                >
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                </button>
+                <button
+                  class="action-btn delete-btn"
+                  (click)="deleteProduct(product.id)"
+                  title="Supprimer"
+                >
+                  <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1zm-1 3a1 1 0 100 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ng-template #noProducts>
+          <div class="no-products-message">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-5.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 003.586 13H4"></path>
+            </svg>
+            <h3>Aucun produit trouvé</h3>
+            <p>Il n'y a aucun produit correspondant aux critères de recherche.</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-controls" *ngIf="totalPages > 1">
+        <button
+          (click)="changePage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="pagination-btn"
+        >
+          Précédent
+        </button>
+
+        <span class="pagination-info">
+          Page {{ currentPage }} sur {{ totalPages }}
+        </span>
+
+        <button
+          (click)="changePage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          class="pagination-btn"
+        >
+          Suivant
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

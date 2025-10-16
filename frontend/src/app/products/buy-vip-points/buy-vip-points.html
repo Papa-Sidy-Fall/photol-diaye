@@ -1,0 +1,119 @@
+<div style="min-height: 100vh; background: linear-gradient(to bottom right, #faf5ff, #fce7f3); padding: 3rem 1rem;">
+  <div style="max-width: 42rem; margin: 0 auto;">
+    <div style="background-color: white; border-radius: 1rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); padding: 2rem;">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; width: 4rem; height: 4rem; border-radius: 9999px; background: linear-gradient(to right, #fbbf24, #f97316);">
+          <svg style="width: 2rem; height: 2rem; color: white;" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.83-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path>
+          </svg>
+        </div>
+        <h2 style="font-size: 1.875rem; font-weight: 700; color: #1f2937;">
+          Booster votre produit avec des points VIP
+        </h2>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #6b7280;">
+          Augmentez la visibilité de votre produit en haut de la liste
+        </p>
+      </div>
+
+      <div style="background: linear-gradient(to right, #fef3c7, #fed7aa); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem;">
+        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+          <svg style="width: 1.5rem; height: 1.5rem; color: #d97706; margin-right: 0.75rem;" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+          </svg>
+          <h3 style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">Comment ça marche ?</h3>
+        </div>
+        <ul style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.875rem; color: #374151;">
+          <li style="display: flex; align-items: center;">
+            <svg style="width: 1rem; height: 1rem; color: #10b981; margin-right: 0.5rem;" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            Plus vous achetez de points, plus votre produit reste visible longtemps
+          </li>
+          <li style="display: flex; align-items: center;">
+            <svg style="width: 1rem; height: 1rem; color: #10b981; margin-right: 0.5rem;" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            Les produits VIP apparaissent toujours en premier
+          </li>
+          <li style="display: flex; align-items: center;">
+            <svg style="width: 1rem; height: 1rem; color: #10b981; margin-right: 0.5rem;" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            Badge VIP doré pour attirer l'attention
+          </li>
+        </ul>
+      </div>
+
+      <form style="display: flex; flex-direction: column; gap: 1.5rem;" [formGroup]="vipPointsForm" (ngSubmit)="onSubmit()">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+          <div>
+            <label for="productId" style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem;">ID du produit</label>
+            <input
+              id="productId"
+              name="productId"
+              type="number"
+              formControlName="productId"
+              style="display: block; width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.875rem; transition: border-color 0.2s, box-shadow 0.2s;"
+              placeholder="Entrez l'ID du produit"
+            />
+          </div>
+
+          <div>
+            <label for="points" style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem;">Nombre de points VIP</label>
+            <input
+              id="points"
+              name="points"
+              type="number"
+              formControlName="points"
+              style="display: block; width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.875rem; transition: border-color 0.2s, box-shadow 0.2s;"
+              placeholder="Ex: 10, 50, 100"
+            />
+          </div>
+
+          <div>
+            <label for="expiresAt" style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem;">Date d'expiration</label>
+            <input
+              id="expiresAt"
+              name="expiresAt"
+              type="date"
+              formControlName="expiresAt"
+              style="display: block; width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.875rem; transition: border-color 0.2s, box-shadow 0.2s;"
+            />
+          </div>
+        </div>
+
+        <div style="background-color: #eff6ff; border-radius: 0.5rem; padding: 1rem;">
+          <div style="display: flex; align-items: center; color: #1e40af;">
+            <svg style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+            <span style="font-size: 0.875rem; font-weight: 500;">Prix : 1 point VIP = 100 FCFA</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+          <button
+            type="button"
+            routerLink="/products"
+            style="flex: 1; background-color: #e5e7eb; color: #374151; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.2s;"
+            onmouseover="this.style.backgroundColor='#d1d5db'"
+            onmouseout="this.style.backgroundColor='#e5e7eb'"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            style="flex: 1; background: linear-gradient(to right, #f59e0b, #ea580c); color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: background 0.2s;"
+            onmouseover="this.style.background='linear-gradient(to right, #d97706, #c2410c)'"
+            onmouseout="this.style.background='linear-gradient(to right, #f59e0b, #ea580c)'"
+          >
+            <svg style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
+            </svg>
+            Acheter des points VIP
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

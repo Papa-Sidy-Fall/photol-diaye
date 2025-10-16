@@ -1,0 +1,66 @@
+<div class="login-container">
+  <div class="login-card">
+    <div>
+      <h2 class="login-title">
+        Connectez-vous à votre compte
+      </h2>
+    </div>
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <div>
+          <label for="email-address" class="sr-only">Adresse e-mail</label>
+          <input
+            id="email-address"
+            name="email"
+            type="email"
+            autocomplete="email"
+            formControlName="email"
+            class="form-input"
+            placeholder="Adresse e-mail"
+          />
+        </div>
+        <div>
+          <label for="password" class="sr-only">Mot de passe</label>
+            <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            formControlName="password"
+            class="form-input bottom-rounded"
+            placeholder="Mot de passe"
+          />
+          <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="error-message">
+            <div *ngIf="password?.errors?.['required']">Le mot de passe est requis.</div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          class="login-button"
+          [disabled]="!loginForm.valid"
+        >
+          <span class="login-button-icon">
+            <!-- Heroicon name: solid/lock-closed -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+            </svg>
+          </span>
+          Se connecter
+        </button>
+      </div>
+    </form>
+    <div class="register-link-container">
+      <a routerLink="/auth/register" class="register-link">
+        Pas encore de compte ? Inscrivez-vous
+      </a>
+    </div>
+  </div>
+</div>

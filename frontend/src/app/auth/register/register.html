@@ -1,0 +1,88 @@
+<div class="register-container">
+  <div class="register-card">
+    <div>
+      <h2 class="register-title">
+        Créez votre compte
+      </h2>
+    </div>
+    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <div>
+          <label for="email-address" class="sr-only">Adresse e-mail</label>
+          <input
+            id="email-address"
+            name="email"
+            type="email"
+            autocomplete="email"
+            formControlName="email"
+            class="form-input"
+            placeholder="Adresse e-mail"
+          />
+        </div>
+        <div>
+          <label for="password" class="sr-only">Mot de passe</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            formControlName="password"
+            class="form-input"
+            placeholder="Mot de passe"
+          />
+        </div>
+        <div>
+          <label for="role" class="sr-only">Rôle</label>
+          <select
+            id="role"
+            name="role"
+            formControlName="role"
+            class="form-input bottom-rounded"
+          >
+            <option value="CLIENT">Client</option>
+            <option value="SELLER">Vendeur</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+          <div *ngIf="role?.invalid && (role?.dirty || role?.touched)" class="error-message">
+            <div *ngIf="role?.errors?.['required']">Le rôle est requis.</div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          class="register-button"
+          [disabled]="!registerForm.valid"
+        >
+          <span class="register-button-icon">
+            <!-- Heroicon name: solid/user-add -->
+            <svg
+              class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+          S'inscrire
+        </button>
+      </div>
+    </form>
+    <div class="login-link-container">
+      <a routerLink="/auth/login" class="login-link">
+        Déjà un compte ? Connectez-vous
+      </a>
+    </div>
+  </div>
+</div>
