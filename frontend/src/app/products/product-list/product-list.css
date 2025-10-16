@@ -29,6 +29,13 @@
   margin-right: 0.5rem;
 }
 
+.navbar-logo {
+  height: 2rem; /* Ajustez la taille selon vos besoins */
+  width: auto;
+  margin-right: 0.5rem;
+  filter: brightness(0) invert(1); /* Rend le SVG blanc */
+}
+
 .navbar-links {
   display: flex;
   align-items: center;

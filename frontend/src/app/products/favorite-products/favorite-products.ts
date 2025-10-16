@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FavoriteService } from '../../services/favorite';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common'; // Import Location
 
 interface Product {
   id: number;
@@ -34,11 +35,16 @@ export class FavoriteProductsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private favoriteService: FavoriteService,
-    private router: Router
+    private router: Router,
+    private location: Location // Inject Location
   ) {}
 
   ngOnInit(): void {
     this.loadFavoriteProducts();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   loadFavoriteProducts(): void {

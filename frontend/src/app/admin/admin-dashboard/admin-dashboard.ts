@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common'; // Import Location
 import { AuthService } from '../../services/auth.service'; // Import AuthService
 
 interface Product {
@@ -38,11 +39,15 @@ export class AdminDashboardComponent implements OnInit {
   pageSize: number = 10;
   totalPages: number = 1;
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private location: Location) {} // Inject Location
 
   ngOnInit(): void {
     this.loadDashboardStats();
     this.loadProducts();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   loadDashboardStats(): void {
