@@ -13,23 +13,29 @@
       </ng-container>
       <ng-container *ngIf="authService.currentUser | async as user">
         <span class="navbar-welcome">Bienvenue, {{ user.email }}</span>
-        <a *ngIf="authService.isSeller()" routerLink="/products/new" class="navbar-button publish">
+        <a *ngIf="user.role === 'SELLER'" routerLink="/products/new" class="navbar-button publish">
           <svg fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
           </svg>
           Publier un produit
         </a>
-        <a *ngIf="authService.isAdmin()" routerLink="/admin" class="navbar-button admin">
+        <a *ngIf="user.role === 'ADMIN'" routerLink="/admin" class="navbar-button admin">
           <svg fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
           </svg>
           Administration
         </a>
-        <a *ngIf="authService.isSeller()" routerLink="/products/buy-vip-points" class="navbar-button vip">
+        <a *ngIf="user.role === 'SELLER'" routerLink="/products/buy-vip-points" class="navbar-button vip">
           <svg fill="currentColor" viewBox="0 0 20 20">
             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.83-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path>
           </svg>
           Points VIP
+        </a>
+        <a routerLink="/products/favorites" class="navbar-button favorite-link">
+          <svg fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+          </svg>
+          Mes Favoris
         </a>
         <button (click)="logout()" class="navbar-button logout">
           <svg fill="currentColor" viewBox="0 0 20 20">
@@ -152,8 +158,13 @@
           </span>
 
           <div class="product-card-buttons">
-            <button class="product-card-button favorite" title="Ajouter aux favoris">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button
+              class="product-card-button favorite"
+              [ngClass]="{ 'liked': product.isLiked }"
+              (click)="toggleLike(product); $event.stopPropagation()"
+              title="Ajouter aux favoris"
+            >
+              <svg fill="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
             </button>

@@ -117,6 +117,21 @@
   background-color: #dc2626; /* Red-600 */
 }
 
+/* Styles pour le bouton Mes Favoris */
+.navbar-button.favorite-link {
+  background-color: var(--white-color);
+  color: #059669; /* Green-600 */
+  text-decoration: none;
+}
+
+.navbar-button.favorite-link:hover {
+  background-color: var(--light-background);
+}
+
+.navbar-button.favorite-link svg {
+  color: #059669; /* Green-600 */
+}
+
 /* Styles pour le bouton Administration */
 .navbar-button.admin {
   background-color: var(--white-color);
@@ -373,6 +388,11 @@
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.product-card-button.favorite.liked {
+  color: #ef4444; /* Red-500 for liked state */
+  fill: #ef4444; /* Ensure SVG fill is also red */
 }
 
 .product-card-button.favorite:hover {

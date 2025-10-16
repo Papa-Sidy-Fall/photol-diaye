@@ -7,10 +7,11 @@ import { PRODUCTS_ROUTES } from './products.routes'; // Import PRODUCTS_ROUTES
 import { ProductListComponent } from './product-list/product-list'; // Import ProductListComponent
 import { SellerProductFormComponent } from './seller-product-form/seller-product-form'; // Import SellerProductFormComponent
 import { BuyVipPointsComponent } from './buy-vip-points/buy-vip-points';
-import { ProductDetailModal } from './product-detail-modal/product-detail-modal'; // Import BuyVipPointsComponent
+import { ProductDetailModal } from './product-detail-modal/product-detail-modal';
+import { FavoriteProductsComponent } from './favorite-products/favorite-products'; // Import FavoriteProductsComponent
 
 @NgModule({
-  declarations: [ProductListComponent, SellerProductFormComponent, BuyVipPointsComponent, ProductDetailModal], // Declare components
+  declarations: [ProductListComponent, SellerProductFormComponent, BuyVipPointsComponent, ProductDetailModal, FavoriteProductsComponent], // Declare components
   imports: [
     CommonModule,
     ReactiveFormsModule, // Add ReactiveFormsModule
